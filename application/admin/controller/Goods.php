@@ -100,12 +100,12 @@ class Goods extends Controller{
 		$attr=db('attr')->where('type_id',$goods['type_id'])->select();
 		//商品属性查询
 		$_goodsAttr=db('goodsAttr')->where('goods_id',$gid)->select();
+		
 		//以attr_id对结果进行重组
 		$goodsAttr=array();
 		foreach ($_goodsAttr as $k => $v) {
 			$goodsAttr[$v['attr_id']][]=$v;
 		}
-		
 		$this->assign([
 			'category'=>$category,//所属栏目
 			'brands'=>$brands,//所属品牌

@@ -42,4 +42,19 @@ class Category extends Model{
         $data['promotion']['url']=$res['pro_url'];
         return $data;
     }
+
+    //获取推荐位下的分类
+    public function getRecCates($rec_id,$pid=0){
+        $_res=db('RecItem')->where(['rec_id'=>$rec_id,'value_type'=>2])->select();
+        $res=array();
+        foreach ($_res as $k => $v) {
+            $cateres=db('category')->where(['id'=>$v['value_id'],'pid'=>$pid])->find();//获取对应的栏目信息
+            //如果有值，才放入数组
+            if($cateres){
+                $res[]= $cateres;
+            }
+            
+        }
+        return $res;
+    }
 }

@@ -236,7 +236,7 @@
                                                                 商品属性
                                                             </label>
                                                             <div class="col-sm-6">
-                                                                <select name="type_id" id="" onchange="returnAttr(this)" disabled>
+                                                                <select name="type_id" id="" onchange="returnAttr(this)" {if condition="$goods['type_id']"}disabled{/if}>
                                                                     <option value="">请选择</option>
                                                                     {volist name="types" id="vo"}
                                                                     <option {if condition="$vo['id'] eq $goods['type_id']"}selected{/if} value="{$vo.id}">{$vo.type_name}</option>
@@ -247,8 +247,10 @@
 <div id="attrbox">
     <?php foreach($attr as $k => $v):?>
     <?php if($v['attr_type']==1):
+ //可选值
     $vals=explode(',',$v['attr_values']);?>
-        <!-- //可选值 -->
+       <!--有记录的先循环出来，没有记录的也要列出来-->
+        <?php if(!empty($goodsAttr[$v['id']])):?>
         <?php foreach($goodsAttr[$v['id']] as $k0=>$v0):?><!--循环出数据表的记录-->
         <div class="form-group" gid="{$v0.id}"><label class="col-sm-2 control-label no-padding-right">{$v.attr_name}：<a href="javascript:;" class="click-a" onclick="addrow(this)"><?php if($k0==0){echo "[+]";}else{echo "[-]";}?></a></label><div class="col-md-6">
         <select name="old_goods_attr[{$v.id}][]">
@@ -258,6 +260,16 @@
             <?php endforeach;?>
         </select><input type="text" name="old_attr_price[{$v0.id}]" class="form-control myinput" placeholder="价格" value="{$v0.attr_price}"></div></div>
        <?php endforeach;?>
+       <?php else:?>
+       <!---不在goods_attr表记录中的字段-->
+       <div class="form-group"><label class="col-sm-2 control-label no-padding-right">{$v.attr_name}：<a href="javascript:;" class="click-a" onclick="addrow2(this)">[+]</a></label><div class="col-md-6">
+            <select name="goods_attr[{$v.id}][]">
+                <option value="">请选择</option>
+                <?php foreach($vals as $k1=>$v1):?>
+                <option value="{$v1}">{$v1}</option>
+                <?php endforeach;?>
+            </select><input type="text" name="attr_price[]" class="form-control myinput" placeholder="价格" value=""></div></div>
+<?php endif;?>
     <?php else:?>
         <!-- //唯一值 -->
             <?php if(!$v['attr_values']):?>
@@ -299,7 +311,7 @@
                                                         {volist name="goodsPhoto" id="vo"}
                                                         <div class="form-group" id="{$vo.id}">
                                                             <label class="col-sm-2 control-label no-padding-right">
-                                                                <a href="javascript:;" onclick="delrow(this)">[-]</a>
+                                                                <a href="javascript:;" onclick="addrowphoto(this)">[-]</a>
                                                             </label>
                                                             <div class="col-sm-6">
                                                                 <img src="__uploads__/{$vo.sm_photo}" alt="" height="50">
@@ -345,6 +357,58 @@
         });
     </script>
     <script>
+          function returnAttr(o){
+            var id=$(o).val();
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                url:"{:url('attr/ajaxGetAttr')}",
+                data:{type_id:id},
+                success:function(data){
+                   var html='';
+                   $(data).each(function(k,v){
+                    
+                       if(v.attr_type==1){
+                            var values=v.attr_values.split(',');
+                            html+="<div class='form-group'>";
+                            html+="<label class='col-sm-2 control-label no-padding-right'>"+v.attr_name+"：<a href='javascript:;' class='click-a' onclick='addrow(this)'>[+]</a></label>";
+                            html+="<div class='col-md-6'><select name='goods_attr["+v.id+"][]'>";
+                            html+="<option value=''>请选择</option>";
+                            for(var i=0;i<values.length;i++){
+                                html+="<option value='"+values[i]+"'>"+values[i]+"</option>";
+                            }
+                            html+="</select>";
+                            html+="<input type='text' name='attr_price[]' class='form-control myinput' placeholder='价格'>";
+                            html+="</div></div>";
+                       }else{
+                           //唯一值
+                           if(v.attr_values){
+                               //有值，使用下拉菜单
+                               var values=v.attr_values.split(',');
+                                html+="<div class='form-group'>";
+                                html+="<label class='col-sm-2 control-label no-padding-right'>"+v.attr_name+"：</label>";
+                                html+="<div class='col-md-6'><select name='goods_attr["+v.id+"]'>";
+                                html+="<option value=''>请选择</option>";
+                                for(var i=0;i<values.length;i++){
+                                    html+="<option value='"+values[i]+"'>"+values[i]+"</option>";
+                                }
+                                html+="</select>";
+                                html+="</div></div>";
+                           }else{
+                               //没有值，使用Input
+                               var values=v.attr_values.split(',');
+                                html+="<div class='form-group'>";
+                                html+="<label class='col-sm-2 control-label no-padding-right'>"+v.attr_name+"：</label>";
+                                html+="<div class='col-md-6'>";
+                                html+="<input class='form-control myinput' name='goods_attr["+v.id+"]' style='width:150px;margin-left:0;'>";
+                                html+="</div></div>";
+                           }
+                       }
+                   });
+                   $('#attrbox').html(html);
+                }
+            });
+        }
         function addrow(o){
             var $node=$(o).parents('.form-group');
             if($(o).html()=='[+]'){
@@ -378,7 +442,8 @@
                 }
             }
         }
-        function addrowphoto(o){
+        //编辑时候，还没有选择属性的字段
+        function addrow2(o){
             $node=$(o).parent().parent();
             if($(o).html()=='[+]'){
                 var newdiv=$node.clone();
@@ -386,6 +451,34 @@
                 $node.after(newdiv);
             }else{
                 $node.remove();
+            }
+            
+        }
+        function addrowphoto(o){
+            $node=$(o).parent().parent();
+            if($(o).html()=='[+]'){
+                var newdiv=$node.clone();
+                newdiv.find('a').html('[-]');
+                $node.after(newdiv);
+            }else{
+                //异步删除相册图片
+                if(confirm('确定要删除图片吗？')){
+                    var delid=$(o).parents('.form-group').attr('id');
+                    $.ajax({
+                        type:'post',
+                        dataType:'json',
+                        url:"{:url('goods/ajaxdelphoto')}",
+                        data:{id:delid},
+                        success:function(data){
+                            if(data==1){
+                                $node.remove();
+                            }else{
+                                alert('删除失败！');
+                            }
+                        }
+                    });
+                }
+               
             }
             
         }

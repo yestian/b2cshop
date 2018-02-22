@@ -60,9 +60,9 @@ class Goods extends Model{
 				$smthumb=date('Ymd') . DS . 'sm_'.$ogImgName;
 				//存入文件
 				$image = \think\Image::open(IMG_UPLOADS.$ogthumb);
-				$image->thumb(500, 500)->save(IMG_UPLOADS.$bigthumb);
-				$image->thumb(300, 300)->save(IMG_UPLOADS.$mdthumb);
-				$image->thumb(100, 100)->save(IMG_UPLOADS.$smthumb);
+				$image->thumb(400,400)->save(IMG_UPLOADS.$bigthumb);
+				$image->thumb(200,200)->save(IMG_UPLOADS.$mdthumb);
+				$image->thumb(58,58)->save(IMG_UPLOADS.$smthumb);
 				//存入数据库
 				$goods->og_thumb=$ogthumb;
 				$goods->big_thumb=$bigthumb;
@@ -150,9 +150,9 @@ class Goods extends Model{
 						$smPhoto=date('Ymd') . DS . 'sm_'.$photo;
 						//存入文件
 						$image = \think\Image::open(IMG_UPLOADS.$ogPhoto);
-						$image->thumb(500, 500)->save(IMG_UPLOADS.$bigPhoto);
-						$image->thumb(300, 300)->save(IMG_UPLOADS.$mdPhoto);
-						$image->thumb(100, 100)->save(IMG_UPLOADS.$smPhoto);
+						$image->thumb(400,400)->save(IMG_UPLOADS.$bigPhoto);
+						$image->thumb(200,200)->save(IMG_UPLOADS.$mdPhoto);
+						$image->thumb(58,58)->save(IMG_UPLOADS.$smPhoto);
 						//删除原图
 						@unlink(IMG_UPLOADS.$ogPhoto);
 						//写入数据库
@@ -195,9 +195,9 @@ class Goods extends Model{
 				$smthumb=date('Ymd') . DS . 'sm_'.$ogImgName;
 				//存入文件
 				$image = \think\Image::open(IMG_UPLOADS.$ogthumb);
-				$image->thumb(500, 500)->save(IMG_UPLOADS.$bigthumb);
-				$image->thumb(300, 300)->save(IMG_UPLOADS.$mdthumb);
-				$image->thumb(100, 100)->save(IMG_UPLOADS.$smthumb);
+				$image->thumb(400,400)->save(IMG_UPLOADS.$bigthumb);
+				$image->thumb(200,200)->save(IMG_UPLOADS.$mdthumb);
+				$image->thumb(58,58)->save(IMG_UPLOADS.$smthumb);
 				//存入数据库
 				$goods->og_thumb=$ogthumb;
 				$goods->big_thumb=$bigthumb;
@@ -234,9 +234,9 @@ class Goods extends Model{
 						$smPhoto=date('Ymd') . DS . 'sm_'.$photo;
 						//存入文件
 						$image = \think\Image::open(IMG_UPLOADS.$ogPhoto);
-						$image->thumb(500, 500)->save(IMG_UPLOADS.$bigPhoto);
-						$image->thumb(300, 300)->save(IMG_UPLOADS.$mdPhoto);
-						$image->thumb(100, 100)->save(IMG_UPLOADS.$smPhoto);
+						$image->thumb(400,400)->save(IMG_UPLOADS.$bigPhoto);
+						$image->thumb(200,200)->save(IMG_UPLOADS.$mdPhoto);
+						$image->thumb(58,58)->save(IMG_UPLOADS.$smPhoto);
 						//删除原图
 						@unlink(IMG_UPLOADS.$ogPhoto);
 						//写入数据库
