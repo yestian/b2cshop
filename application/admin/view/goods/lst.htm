@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">商品管理</a>
+                        </li>
+                        <li class="active">商品列表</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+
+                    <button tooltip="商品列表" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url("goods/add")}'">
+                        <i class="fa fa-plus"></i> Add
+                    </button>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="flip-scroll">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="">
+                                                <tr>
+                                                    <th class="text-center" width='80'>ID</th>
+                                                    <th class="text-center">商品名称</th>
+                                                    <th class="text-center">编号</th>
+                                                    <th class="text-center">缩略图</th>
+                                                    <th class="text-center">市场价</th>
+                                                    <th class="text-center">本店价</th>
+                                                    <th class="text-center">上架</th>
+                                                    <th class="text-center">栏目</th>
+                                                    <th class="text-center">品牌</th>
+                                                    <th class="text-center">类型</th>
+                                                    <th class="text-center">重量</th>
+                                                    <th class="text-center">库存</th>
+                                                    <th class="text-center" width='260'>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {volist name='lst' id='vo'}
+                                                <tr>
+                                                    <td align="center">{$vo.id}</td>
+                                                    <td align="center">{$vo.goods_name|cut_str=###,8}</td>
+                                                    <td align="center">{$vo.goods_code}</td>
+                                                    <td align="center">{if condition="$vo['sm_thumb'] neq ''"}<img src="__uploads__/{$vo.sm_thumb}" width='30' height='30'>{else/}无{/if}</td>
+                                                    <td align="center">{$vo.market_price}</td>
+                                                    <td align="center">{$vo.shop_price}</td>
+                                                    <td align="center">{if condition="$vo['on_sale'] eq 1"}
+                                                        <img src="__admin__/images/right.png" alt="是">{else/}
+                                                        <img src="__admin__/images/error.png" alt="否">{/if}</td>
+                                                    <td align="center">{$vo.cate_name}</td>
+                                                    <td align="center">{$vo.brand_name}</td>
+                                                    <td align="center">{$vo.type_name}</td>
+                                                    <td align="center">{$vo.weight} {$vo.weight_unit}</td>
+                                                    <td align="center">{if condition="$vo['stock'] neq ''"}{$vo.stock}{else/}0{/if}</td>
+                                                    
+                                                    <td align="center">
+                                                            <a href="{:url('stock',array('id'=>$vo['id']))}" class="btn btn-default btn-sm shiny">
+                                                                    <i class="fa fa-edit"></i> 库存
+                                                                </a>
+                                                        <a href="{:url('edit',array('id'=>$vo['id']))}" class="btn btn-primary btn-sm shiny">
+                                                            <i class="fa fa-edit"></i> 编辑
+                                                        </a>
+                                                        <a href="#" onClick="warning('确实要删除吗', '{:url('del',array('id'=>$vo['id']))}')" class="btn btn-danger btn-sm shiny">
+                                                            <i class="fa fa-trash-o"></i> 删除
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {/volist}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-md-12 text-right">{$lst->render()}</div>
+                                    </div>
+                                   
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+</body>
+
+</html>

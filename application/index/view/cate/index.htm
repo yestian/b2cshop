@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Keywords" content="文章分类列表" />
+    <meta name="Description" content="文章分类列表" />
+    <title>文章分类列表</title>
+ {include file='common/meta'}
+</head>
+
+<body class="bg-ligtGary">
+  {include file='common/head'}
+    <div class="content article-content">
+        <div class="w w1200 clearfix">
+            {include file='common/articleside'}
+            <div class="article-main">
+                <div class="am-hd">
+                    <h2>{$cateres.cate_name} </h2>
+                    <div class="mod-list-sort fr mt10">
+                        <form action="" name="search_form" method="post" class="article_search">
+                            <div class="f-search">
+                                <input name="keywords" type="text" id="requirement" value="" class="text" placeholder="请填写搜索内容" />
+                                <input name="id" type="hidden" value="5" />
+                                <input name="cur_url" id="cur_url" type="hidden" value="" />
+                                <input type="submit" value="立即搜索" class="btn sc-redBg-btn ui-btn-submit" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="am-bd">
+                    <ul class="artilce-list">
+                        {volist name='articles' id='vo'}
+                        <li>
+                            <h3>
+                                <a href="{if condition="$vo['link_url']"}{$vo.link_url}{else/}{:url('article/index',array('id'=>$vo['id']))}{/if}" title="{$vo.title}">{$vo.title}</a>
+                            </h3>
+                            <p></p>
+                        </li>
+                      {/volist}
+                    </ul>
+                </div>
+
+                <script type="Text/Javascript" language="JavaScript">
+<!--
+function selectPage(sel)
+{
+  sel.form.submit();
+}
+//-->
+</script>
+            </div>
+
+        </div>
+    </div>
+    {include file='common/footer'}
+    {include file='common/footerjs'}
+    <script type="text/javascript">
+        document.getElementById('cur_url').value = window.location.href;
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $(".article-side .side-goods").slide({
+                effect: 'leftLoop'
+            });
+        });
+    </script>
+</body>
+
+</html>

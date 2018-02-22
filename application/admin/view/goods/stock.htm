@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">系统</a>
+                        </li>
+                        <li>
+                                <a href="{:url('goods/lst')}">商品列表</a>
+                            </li>
+                        <li class="active">商品库存</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+                    <form action="" method='post'>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="flip-scroll">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="">
+                                                <tr>
+                                                    {volist name='stock' id='vo'}
+                                                    <th class="text-center">{$key}</th>
+                                                    {/volist}
+                                                    <th class="text-center">库存量</th>
+                                                    <th class="text-center" width='260'>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if($getstock):?>
+                                                <?php foreach($getstock as $k0=>$v0):?>
+                                                <tr>
+                                                    <?php foreach ($stock as $k=>$v):?>
+                                                    <td align="center">
+                                                        <select name="goods_attr[{$k}][]" id="" required>
+                                                            <option value="">请选择</option>
+                                                            <?php foreach ($v as $k1=>$v1):
+                                                                $arr=explode(',',$v0['goods_attr']);
+                                                                if(in_array($v1['id'],$arr)){
+                                                                    $selected="selected";
+                                                                }else{
+                                                                    $selected='';
+                                                                }
+                                                            ?>
+                                                            <option <?php echo $selected;?> value="<?php echo $v1['id'];?>"><?php echo $v1['attr_value'];?></option>
+                                                            <?php endforeach;?>
+                                                        </select>
+                                                    </td>
+                                                    <?php endforeach;?>
+                                                    <td align="center"><input type="text" name="goods_number[]" style="width:100px;height:34px;text-align:center;" value="{$v0.goods_number}"></td>
+                                                    <td align="center">
+                                                        <a href="javascript:;" onclick="addstock(this)" class="btn btn-sm btn-azure btn-addon"><?php if($k0==0):?>+<?php else:?>-<?php endif;?></a>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach;?>
+                                                <?php else:?>
+                                                <tr>
+                                                    <?php foreach ($stock as $k=>$v):?>
+                                                    <td align="center">
+                                                    <select name="goods_attr[{$k}][]" id="" required>
+                                                        <option value="">请选择</option>
+                                                        <?php foreach ($v as $k1=>$v1):?>
+                                                        <option value="<?php echo $v1['id'];?>"><?php echo $v1['attr_value'];?></option>
+                                                        <?php endforeach;?>
+                                                    </select>
+                                                    </td>
+                                                    <?php endforeach;?>
+                                                    <td align='center'><input type="text" name="goods_number[]" style="width:100px;height:34px;"></td>
+                                                    <td align="center">
+                                                        <a href="javascript:;" onclick="addstock(this)" class="btn btn-sm btn-azure btn-addon">+</a>
+                                                    </td>
+                                                </tr>
+                                                <?php endif;?>
+                                            </tbody>
+                                        </table>
+                                        <div class="form-group">
+                                            <div style="text-align:right;margin-top:15px;">
+                                                <button type="submit" class="btn btn-default">保存信息</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    </form>
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+    <script>
+            function addstock(o){
+            $node=$(o).parents('tr');
+            if($(o).html()=='+'){
+                var newdiv=$node.clone();
+                newdiv.find('a').html('-');
+                $node.after(newdiv);
+            }else{
+                $node.remove();
+            }
+            
+        }
+    </script>
+</body>
+
+</html>

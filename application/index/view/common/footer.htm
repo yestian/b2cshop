@@ -1,0 +1,105 @@
+<div class="footer-new">
+    <div class="footer-new-top">
+        <div class="w w1200">
+            <div class="service-list">
+                <div class="service-item">
+                    <i class="f-icon f-icon-qi"></i>
+                    <span>七天包退</span>
+                </div>
+                <div class="service-item">
+                    <i class="f-icon f-icon-zheng"></i>
+                    <span>正品保障</span>
+                </div>
+                <div class="service-item">
+                    <i class="f-icon f-icon-hao"></i>
+                    <span>好评如潮</span>
+                </div>
+                <div class="service-item">
+                    <i class="f-icon f-icon-shan"></i>
+                    <span>闪电发货</span>
+                </div>
+                <div class="service-item">
+                    <i class="f-icon f-icon-quan"></i>
+                    <span>权威荣誉</span>
+                </div>
+            </div>
+            <div class="contact">
+                <div class="contact-item contact-item-first">
+                    <i class="f-icon f-icon-tel"></i>
+                    <span>{$config.tel}</span>
+                </div>
+                <div class="contact-item">
+                    <a id="IM" IM_type="dsc" onclick="openWin(this)" href="javascript:;" class="btn-ctn">
+                        <i class="f-icon f-icon-kefu"></i>
+                        <span>咨询客服</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-new-con">
+        <div class="fnc-warp">
+            <div class="help-list">
+                {volist name='footerList' id='vo'}
+                <div class="help-item">
+                    <h3>{$vo.cate_name}</h3>
+                    <ul>
+                        {volist name='vo.arts' id='art'}
+                        <li>
+                            <a href="{if condition="$art['link_url']"}{$art.link_url}{else/}{:url('article/index',array('id'=>$art['id']))}{/if}" title="{$art.title}" target="_blank">{$art.title}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/volist}
+            </div>
+            <div class="qr-code">
+                <div class="qr-item qr-item-first">
+                    <div class="code_img">
+                        <img src="__index__/img/qrcode1.jpg">
+                    </div>
+                    <div class="code_txt">个人微信</div>
+                </div>
+                <div class="qr-item">
+                    <div class="code_img">
+                        <img src="__index__/img/qrcode2.jpg">
+                    </div>
+                    <div class="code_txt">公众号</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-new-bot">
+        <div class="w w1200">
+
+            <p class="copyright_links">
+                <a href="index.php">首页</a>
+                {volist name='botArticle' id='vo'}
+                <span class="spacer"></span>
+                <a href="{:url('article/index',array('id'=>$vo['id']))}">{$vo.title}</a>
+                {/volist}
+            </p>
+
+            <p>
+                <span>©&nbsp;2016-2018&nbsp;{$config.siteurl}&nbsp;版权所有&nbsp;&nbsp;</span>&nbsp;备案号：{$config.beian}&nbsp;POWERED by
+                <a href="http://{$config.siteurl}" target="_blank">{$config.cmsname}</a></p>
+        </div>
+    </div>
+
+
+    <div class="hide" id="pd_coupons">
+        <span class="success-icon m-icon"></span>
+        <div class="item-fore">
+            <h3>领取成功！感谢您的参与，祝您购物愉快~</h3>
+            <div class="txt ftx-03">本活动为概率性事件，不能保证所有客户成功领取优惠券</div>
+        </div>
+    </div>
+
+
+    <div class="hidden">
+        <input type="hidden" name="seller_kf_IM" value="" rev="" ru_id="0" />
+        <input type="hidden" name="seller_kf_qq" value="{$config.qq}" />
+        <input type="hidden" name="seller_kf_tel" value="{$config.tel}" />
+        <input type="hidden" name="user_id" ectype="user_id" value="0" />
+    </div>
+</div>

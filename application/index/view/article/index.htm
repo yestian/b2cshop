@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Keywords" content="文章内容" />
+    <meta name="Description" content="文章内容" />
+    <title>{$res.title}</title>
+{include file='common/meta'}
+</head>
+
+<body class="bg-ligtGary">
+    {include file='common/head'}
+    <div class="content article-content">
+        <div class="w w1200 clearfix">
+            {include file='common/articleside'}
+            <div class="article-main">
+                <div class="am-hd">
+                    <h2>{$res.title}</h2>
+                    <div class="extra">
+                        {volist name='position' id='vo'}
+                        <a href="{:url('cate/index',array('id'=>$vo['id']))}">{$vo.cate_name}</a>
+                        <i>&gt;</i>
+                        {/volist}
+                        <span>{$res.title}</span>
+                    </div>
+                </div>
+                <div class="am-bd">
+                    <div class="article-words">
+                      {$res.content} 文章内容。。。
+                    </div>
+                    <div class="more_article">
+                        <span class="art_prev">
+                            上一篇：
+                            <a href="article.php?id=11">订购方式</a>
+                        </span>
+                        <span class="art_next">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   {include file="common/footer"}
+   {include file='common/footerjs'}
+    <script type="text/javascript">
+        $(function () {
+            $(".article-side .side-goods").slide({
+                effect: 'leftLoop'
+            });
+        });
+    </script>
+</body>
+
+</html>

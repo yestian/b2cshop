@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">系统</a>
+                        </li>
+                        <li>
+                                <a href="{:url('lst')}">关联品牌</a>
+                            </li>
+                        <li class="active">编辑关联品牌</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-bottom bordered-blue">
+                                    <span class="widget-caption">编辑关联品牌</span>
+                                </div>
+                                <div class="widget-body">
+                                    <div id="horizontal-form">
+                                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="id" value="{$res.id}">
+                                            <div class="form-group">
+                                                <label for="title" class="col-sm-2 control-label no-padding-right">顶级栏目名称</label>
+                                                <div class="col-sm-6">
+                                                    <select name="category_id" id="" required>
+                                                        <option value="">请选择</option>
+                                                        {volist name='cates' id='vo'}
+                                                        <option {if condition="$vo['id'] eq $res['category_id']"}selected{/if} value="{$vo.id}">{$vo.cate_name}</option>
+                                                        {/volist}
+                                                    </select>
+                                                </div>
+                                                <p class="help-block col-sm-4 red">* 必填</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label no-padding-right">推广图</label>
+                                                <div class="col-sm-6">
+                                                    <input name="pro_img" type="file">
+                                                    {if condition="$res['pro_img'] neq ''"}<img src="__uploads__/{$res.pro_img}" height="30">{/if}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="pro_url" class="col-sm-2 control-label no-padding-right">推广地址</label>
+                                                <div class="col-sm-6">
+                                                    <input name="pro_url" type="text" class="form-control" value="{$res.pro_url}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-sm-2 control-label no-padding-right">关联品牌</label>
+                                                    <div class="flex">
+                                                            <?php $arr=explode(',',$res['brand_ids']);?>
+                                                            {volist name='brands' id='vo'}
+                                                            <?php
+                                                            if(in_array($vo['id'],$arr)){
+                                                                $checked='checked';
+                                                            }else{
+                                                                $checked='';
+                                                            }
+                                                            ?>
+                                                            <label style='margin-right:15px;'>
+                                                                <input <?php echo $checked;?> name="brand_ids[]" type="checkbox" value='{$vo.id}'>
+                                                                <span class="text">{$vo.brand_name}</span>
+                                                            </label>
+                                                        {/volist}
+                                                    </div>
+                                                </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-default">保存信息</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+
+</body>
+
+</html>

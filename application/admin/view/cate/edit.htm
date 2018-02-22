@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">系统</a>
+                        </li>
+                        <li class="active">添加分类</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-bottom bordered-blue">
+                                    <span class="widget-caption">添加分类</span>
+                                </div>
+                                <div class="widget-body">
+                                    <div id="horizontal-form">
+                                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" value="{$res.id}" name="id">
+                                            <div class="form-group">
+                                                <label for="pid" class="col-sm-2 control-label no-padding-right">上级分类</label>
+                                                <div class="col-sm-6">
+                                                    <select name="pid" id="">
+                                                        {if condition="$res['cate_type'] eq 5"}
+                                                        <option value="0">顶级分类</option>{/if}
+                                                        {volist name='cateres' id='vo'}
+                                                        <option {if condition="$vo['id'] eq $res['pid']"}selected{/if} {if condition="($vo['cate_type'] neq 5) OR ($vo['id'] eq $res['id']) OR $res['cate_type'] neq 5"}disabled{/if} value="{$vo.id}">
+                                                            <?php echo str_repeat('-',$vo['level']*8);?>{$vo.cate_name}
+                                                        </option>
+                                                        {/volist}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cate_name" class="col-sm-2 control-label no-padding-right">分类名称</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" value="{$res.cate_name}" name="cate_name" required="" type="text">
+                                                </div>
+                                                <p class="help-block col-sm-4 red">* 必填</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="status" class="col-sm-2 control-label no-padding-right">显示到导航</label>
+                                                <div class="flex">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input name="show_nav" type="radio" value='1' {if condition="$res['show_nav'] eq 1" }checked{/if}>
+                                                            <span class="text">是 </span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input name="show_nav" type="radio" class="inverted" value="0" {if condition="$res['show_nav'] eq 0" }checked{/if}>
+                                                            <span class="text">否 </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="thumb" class="col-sm-2 control-label no-padding-right">缩略图</label>
+                                                <div class="col-sm-6">
+                                                    <input name="thumb" type="file">
+                                                    {if condition="$res['thumb'] neq ''"}
+                                                    <img src="__uploads__/{$res.thumb}" alt="缩略图" style="margin-top:15px;width:80px;height:80px;">{/if}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="banner" class="col-sm-2 control-label no-padding-right">banner图</label>
+                                                <div class="col-sm-6">
+                                                    <input name="banner" type="file">{if condition="$res['banner'] neq ''"}
+                                                    <img src="__uploads__/{$res.banner}" alt="banner" style="margin-top:15px;width:80px;height:80px;">{/if}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="keywords" class="col-sm-2 control-label no-padding-right">关键字</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" placeholder="" name="keywords" type="text" value="{$res.keywords}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description" class="col-sm-2 control-label no-padding-right">描述</label>
+                                                <div class="col-sm-6">
+                                                    <textarea name="description" id="" rows="6" class="form-control">{$res.description}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-default">保存信息</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+
+</body>
+
+</html>

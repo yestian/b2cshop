@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">系统</a>
+                        </li>
+                        <li class="active">图片列表</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+
+                    <!--button tooltip="图片列表" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url("article/add
+                        ")}'">
+                        <i class="fa fa-plus"></i> Add
+                    </button-->
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="flip-scroll">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="">
+                                                <tr>
+                                                    <th class="text-center">图片</th>
+                                                    <th>路径</th>
+                                                    <th class="text-center" width='200'>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {volist name='lst' id='img'}
+                                                <tr>
+                                                    <td align="center">
+                                                        <a href="{$img}" target="_blank">
+                                                            <img src="{$img}" alt="" height='40' width='40'>
+                                                        </a>
+                                                    </td>
+                                                    <td>{$img}</td>
+                                                    <td align="center">
+                                                        <a href="#" onClick="delimg(this)" id="{$img}" class="btn btn-danger btn-sm shiny">
+                                                            <i class="fa fa-trash-o"></i> 删除
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {/volist}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+    <script>
+        function delimg(o){
+            var img=$(o).attr('id');
+            $.ajax({
+                url : "{:url('article/delimg')}",
+                type : "post",
+                dataType : "json",
+                data : {imgSrc:img},
+                success : function(data) {
+                    if(data==1){
+                        alert('删除成功！');
+                        $(o).parents('tr').remove();
+                    }else if(data==2){
+                        alert('删除失败！');
+                    }else{
+                        alert('图片不存在！');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
