@@ -17,7 +17,15 @@ class Account extends Controller{
     //异步验证注册用户名是否存在
     public function checkusername(){
         if(request()->isAjax()){
-            echo 1;
+            echo 123;
         }
+    }
+
+    public function sendSms(){
+
+    }
+
+    public function sendEmail(){
+        
     }
 }
