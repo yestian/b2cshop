@@ -538,18 +538,25 @@ $(function(){
 	});
 	
 	//首页品牌 换一批切换
+	var totalpage=0;
 	doc.on('click',"*[ectype='changeBrand']",function(){
-		var temp = '';
-		if($("input[name='temp']").length > 0){
-			temp = $("input[name='temp']").val();
+		ajax_page++;
+		if(totalpage!=0 && totalpage<ajax_page){
+			ajax_page=1;
 		}
-		
-		Ajax.call("get_ajax_content.php","act=ajax_change_brands&temp="+temp,changeBrandResponse,'GET','JSON');
+		$.ajax({
+			type:'post',
+			dataType:'json',
+			data:{page:ajax_page},
+			url:ajax_brand_url,
+			success:function(data){
+				totalpage=data.totalpage;
+				$('#recommend_brands').html(data.brands);
+			}
+		});
 	});	
 	
-	function changeBrandResponse(result){
-		$("#recommend_brands").html(result.content);
-	}
+
 	
 	//首页弹出全屏广告
 

@@ -1,11 +1,21 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
+use catetree\Catetree;
 
-class Brand extends Controller{
+class Slider extends Controller{
 
 	public function lst(){
-		$lst=db('brand')->order('id desc')->paginate(10);
+		//无限极分类
+		$cate=new Catetree();
+		$db=db('slider');
+		//排序数据
+		if(request()->isPost()){
+			$data=input('post.');
+			$res=$cate->cateSort($data['sort'],$db);
+			$this->success('排序成功！','lst');
+		}
+		$lst=$db->order('sort desc')->paginate(10);
 		$this->assign([
 			'lst'=>$lst
 		]);
@@ -16,20 +26,20 @@ class Brand extends Controller{
 		if(request()->isPost()){
 			$data=input('post.');
 			//自动添加http
-			if($data['brand_url'] && strpos($data['brand_url'],'http://')===false){
-				$data['brand_url']='http://'.$data['brand_url'];
+			if($data['slider_url'] && strpos($data['slider_url'],'http://')===false){
+				$data['slider_url']='http://'.$data['slider_url'];
 			}
 			//上传图片处理
-			if($_FILES['brand_img']['tmp_name']){
-				$data['brand_img']=$this->upload('brand_img');
+			if($_FILES['slider_img']['tmp_name']){
+				$data['slider_img']=$this->upload('slider_img');
 			}
-			//验证
-			$validate=validate('Brand');
-			if(!$validate->check($data)){
-				$this->error($validate->getError());
-			}
+			// //验证
+			// $validate=validate('slider');
+			// if(!$validate->check($data)){
+			// 	$this->error($validate->getError());
+			// }
 			//插入
-			$save=db('brand')->insert($data);
+			$save=db('slider')->insert($data);
 			if($save){
 				$this->success('添加成功！','lst');
 			}else{
@@ -41,32 +51,27 @@ class Brand extends Controller{
 
 	public function edit($id){
 		//查找
-		$res=db('brand')->find($id);
+		$res=db('slider')->find($id);
 		//更新
 		if(request()->isPost()){
 			$data=input('post.');
 			//自动添加http
-			if($data['brand_url'] && strpos($data['brand_url'],'http://')===false){
-				$data['brand_url']='http://'.$data['brand_url'];
+			if($data['slider_url'] && strpos($data['slider_url'],'http://')===false){
+				$data['slider_url']='http://'.$data['slider_url'];
 			}
 			//上传图片处理
-			if($_FILES['brand_img']['tmp_name']){
+			if($_FILES['slider_img']['tmp_name']){
 				//先删除旧图片
-				$olds=db('brand')->field('brand_img')->find($data['id']);
-				$oldImg=IMG_UPLOADS.$olds['brand_img'];
+				$olds=db('slider')->field('slider_img')->find($data['id']);
+				$oldImg=IMG_UPLOADS.$olds['slider_img'];
 				if(file_exists($oldImg)){
 					@unlink($oldImg);//@可以忽略错误提示
 				}
 				//上传新图片
-				$data['brand_img']=$this->upload('brand_img');
-			}
-			//验证
-			$validate=validate('Brand');
-			if(!$validate->check($data)){
-				$this->error($validate->getError());
+				$data['slider_img']=$this->upload('slider_img');
 			}
 			//更新
-			$save=db('brand')->update($data);
+			$save=db('slider')->update($data);
 			if($save!==false){
 				$this->success('编辑成功！','lst');
 			}else{
@@ -80,9 +85,11 @@ class Brand extends Controller{
 	}
 	
 	public function del($id){
-		$db=db('brand');
-		$img=$db->field('brand_img')->find($id);
-		$img=IMG_UPLOADS.$img['brand_img'];
+		//删除图片前，删除图片
+		$db=db('slider');
+		//同步删除图片
+		$img=$db->field('slider_img')->find($id);
+		$img=IMG_UPLOADS.$img['slider_img'];
 		if(file_exists($img)){
 			@unlink($img);
 		}

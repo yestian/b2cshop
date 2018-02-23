@@ -8,4 +8,14 @@ class Index extends Controller{
 		
 		return view();
 	}
+
+
+	/**
+	 * 清空后台缓存
+	 */
+	public function clearCache(){
+		if(cache(null)){
+			$this->success('清除缓存成功！');
+		}
+	}
 }

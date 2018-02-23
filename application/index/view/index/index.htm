@@ -38,23 +38,13 @@
                     <div class="banner home-banner">
                         <div class="bd">
                             <ul data-type="range">
-
-                                <li style="background:url(__index__/img/1494984992503176615.jpg) center center no-repeat;">
+                                {volist name='slider' id='vo'}
+                                <li style="background:url(__uploads__/{$vo.slider_img}) center center no-repeat;">
                                     <div class="banner-width">
-                                        <a href="" style="height:500px;"></a>
+                                        <a href="#" style="height:500px;"></a>
                                     </div>
                                 </li>
-                                <li style="background:url(__index__/img/1494984990506843460.jpg) center center no-repeat;">
-                                    <div class="banner-width">
-                                        <a href="" style="height:500px;"></a>
-                                    </div>
-                                </li>
-                                <li style="background:url(__index__/img/1494984991783527346.jpg) center center no-repeat;">
-                                    <div class="banner-width">
-                                        <a href="" style="height:500px;"></a>
-                                    </div>
-                                </li>
-
+                                {/volist}
                             </ul>
                             <div class="spec" data-spec=""></div>
                         </div>
@@ -79,7 +69,7 @@
                                     </div>
                                     <div class="vip-item">
                                         <div class="tit">
-                                            <a href="javascript:void(0);" class="tab_head_item">公告</a>
+                                            <a href="javascript:void(0);" class="tab_head_item on">公告</a>
                                             <a href="javascript:void(0);" class="tab_head_item">促销</a>
                                         </div>
                                         <div class="con">
@@ -207,6 +197,20 @@
                     </div>
                 </div>
             </div>
+<div class="visual-item w1200 brandList" data-mode="h-brand" data-purebox="homeAdv" data-li="1" ectype="visualItme" data-diff="0" style="display: block;">      
+    <div class="view">
+        <div class="brand-channel clearfix" id="h-brand_0" data-type="range" data-lift="品牌">
+<div class="home-brand-adv slide_lr_info">
+<a href="" target="_blank"><img src="__index__/img/1494984992104112514.jpg" class="slide_lr_img"></a>
+</div>
+<div ectype="homeBrand"><div class="brand-list" id="recommend_brands">
+<a href="javascript:void(0);" ectype="changeBrand" class="refresh-btn"><i class="iconfont icon-rotate-alt"></i><span>换一批</span></a>
+</div>
+</div>
+<div class="spec" data-spec="" data-title="undefined"></div>
+</div>
+    </div>
+</div>
             <?php foreach($cateRec as $k=>$v):?>
             <div class="visual-item w1200 homefloor" data-mode="homeFloor" data-purebox="homeFloor" data-li="1" ectype="visualItme" data-diff="0"
                 style="display: block;">

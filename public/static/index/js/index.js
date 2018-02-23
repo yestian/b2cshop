@@ -188,6 +188,18 @@ function indexSlider() {
     aroundSilder(".floor_silder");
 }
 
+//公告和促销的切换
+function ans(){
+    $('.vip-item .tab_head_item').click(function(){
+        var i=$(this).index();
+        $(this).addClass('on').siblings().removeClass('on');
+        $(this).parents('.vip-item').find('ul').eq(i).show().siblings().hide();
+    });
+}
+
+
 $(function(){
     indexSlider();
+    ans();//促销，公告
+    $('.refresh-btn').click();//第一次自动加载品牌ajax事件
 });

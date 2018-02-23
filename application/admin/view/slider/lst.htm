@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file='common/meta'}
+
+</head>
+
+<body>
+    <!-- 头部 -->
+    {include file='common/top'}
+
+    <!-- /头部 -->
+
+    <div class="main-container container-fluid">
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            {include file='common/left'}
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{:url('index/index')}">系统</a>
+                        </li>
+                        <li class="active">轮播图列表</li>
+                    </ul>
+                </div>
+                <!-- /Page Breadcrumb -->
+
+                <!-- Page Body -->
+                <div class="page-body">
+
+                    <button tooltip="轮播图列表" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url("add")}'">
+                        <i class="fa fa-plus"></i> Add
+                    </button>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="flip-scroll">
+                                        <form action="" method="post">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="">
+                                                <tr>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">标题</th>
+                                                    <th class="text-center">图片</th>
+                                                    <th class="text-center">链接</th>
+                                                    <th class="text-center" width='80'>状态</th>
+                                                    <th class="text-center" width='80'>排序</th>
+                                                    <th class="text-center" width='200'>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {volist name='lst' id='vo'}
+                                                <tr>
+                                                    <td align="center">{$vo.id}</td>
+                                                    <td align="center">{$vo.title}</td>
+                                                    <td align="center">
+                                                        {if condition="$vo['slider_img'] neq ''"}
+                                                        <img src="__uploads__/{$vo.slider_img}" width='150' height="30">
+                                                        {else/}暂无图片{/if}
+                                                    </td>
+                                                    <td align="center"><a href="{$vo.slider_url}" target="_blank">{$vo.slider_url}</a></td>
+                                                    
+                                                    <td align="center">
+                                                        {if condition="$vo['status'] eq 1"}
+                                                        <img src="__admin__/images/right.png" alt="启用">{else/}
+                                                        <img src="__admin__/images/error.png" alt="关闭">{/if}
+                                                    </td>
+                                                    <td align="center"><input type="text"  name="sort[{$vo.id}]" value="{$vo.sort}" class="form-control" style="text-align:center;"></td>
+                                                    <td align="center">
+                                                        <a href="{:url('edit',array('id'=>$vo['id']))}" class="btn btn-primary btn-sm shiny">
+                                                            <i class="fa fa-edit"></i> 编辑
+                                                        </a>
+                                                        <a href="#" onClick="warning('确实要删除吗', '{:url('del',array('id'=>$vo['id']))}')" class="btn btn-danger btn-sm shiny">
+                                                            <i class="fa fa-trash-o"></i> 删除
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {/volist}
+                                                <tr><td colspan='5'></td>
+                                                    <td align="center"><button class="btn btn-primary btn-sm shiny" type="submit">排序</button></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                       </form>
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-md-12 text-right">{$lst->render()}</div>
+                                    </div>
+                                   
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+    </div>
+    {include file='common/footjs'}
+</body>
+
+</html>
