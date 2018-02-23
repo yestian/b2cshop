@@ -499,34 +499,34 @@ input.btn25{ height: 25px;line-height: 23px;}
 
 /* checkbox and radio */
 .ui-checkbox,.ui-radio,.ui-all-checkbox,.ui-solid-checkbox{ display:none;}
-.ui-label{ padding-left:18px; background:url(../img/check/checkbox_12x12.png) 0 2px no-repeat;}
-.ui-checkbox:checked + label{ background:url(../img/check/checked_12x12.png) 0 2px no-repeat; color:#f42424;}
-.ui-label:hover{ background:url(../img/check/checkbox_cur_12x12.png) 0 2px no-repeat; cursor:pointer; color:#f42424;}
+.ui-label{ padding-left:18px; background:url(../img/checkbox_12x12.png) 0 2px no-repeat;}
+.ui-checkbox:checked + label{ background:url(../img/checked_12x12.png) 0 2px no-repeat; color:#f42424;}
+.ui-label:hover{ background:url(../img/checkbox_cur_12x12.png) 0 2px no-repeat; cursor:pointer; color:#f42424;}
 
-.ui-label-14{ padding-left:18px; background:url(../img/check/checkbox_14x14.png) 0 1px no-repeat; cursor:pointer;}
-.ui-checkbox:checked + label.ui-label-14{ background:url(../img/check/checked_solid_14x14.png) 0 1px no-repeat; color:#f42424;}
+.ui-label-14{ padding-left:18px; background:url(../img/checkbox_14x14.png) 0 1px no-repeat; cursor:pointer;}
+.ui-checkbox:checked + label.ui-label-14{ background:url(../img/checked_solid_14x14.png) 0 1px no-repeat; color:#f42424;}
 
-.ui-solid-label{ padding-left:18px; background:url(../img/check/checkbox_12x12.png) 0 2px no-repeat;}
-.ui-solid-checkbox:checked + label{ background:url(../img/check/checked_solid_12x12.png) 0 2px no-repeat;}
+.ui-solid-label{ padding-left:18px; background:url(../img/checkbox_12x12.png) 0 2px no-repeat;}
+.ui-solid-checkbox:checked + label{ background:url(../img/checked_solid_12x12.png) 0 2px no-repeat;}
 
-.ui-checkbox:disabled+label{ background: url(../img/check/input_checkbox_disabled.png) 0 2px no-repeat;}
-.ui-checkbox:disabled:checked+label{ background: url(../img/check/input_checkbox_disabled.png) 0 2px no-repeat;}
+.ui-checkbox:disabled+label{ background: url(../img/input_checkbox_disabled.png) 0 2px no-repeat;}
+.ui-checkbox:disabled:checked+label{ background: url(../img/input_checkbox_disabled.png) 0 2px no-repeat;}
 
-.ui-radio-label{ padding-left: 20px;background: url(../img/check/radio2.png) 2px 2px no-repeat;}
-.ui-radio:checked + label{background: url(../img/check/radio_checked2.png) 2px 2px no-repeat;}
+.ui-radio-label{ padding-left: 20px;background: url(../img/radio2.png) 2px 2px no-repeat;}
+.ui-radio:checked + label{background: url(../img/radio_checked2.png) 2px 2px no-repeat;}
 
 .radio-item{ float:left;}
-.radio-item .ui-radio-label{ padding-left:28px; background:url(../img/check/radio.png) 0 0px no-repeat; font-size:14px; height:20px; line-height:20px; display:block; margin-right:20px; cursor:pointer; color:#8c8c8c;}
-.radio-item .ui-radio:checked + label{ background:url(../img/check/radio_checked.png) 0 0px no-repeat;}
+.radio-item .ui-radio-label{ padding-left:28px; background:url(../img/radio.png) 0 0px no-repeat; font-size:14px; height:20px; line-height:20px; display:block; margin-right:20px; cursor:pointer; color:#8c8c8c;}
+.radio-item .ui-radio:checked + label{ background:url(../img/radio_checked.png) 0 0px no-repeat;}
 
-.ui-all-label{ padding-left:20px; height:20px; background:url(../img/check/checkbox_all.png) no-repeat; display:inline-block; cursor:pointer;}
-.ui-all-checkbox:checked + label{ background:url(../img/check/checked_all.png) no-repeat;}
+.ui-all-label{ padding-left:20px; height:20px; background:url(../img/checkbox_all.png) no-repeat; display:inline-block; cursor:pointer;}
+.ui-all-checkbox:checked + label{ background:url(../img/checked_all.png) no-repeat;}
 
-.ui-b2b-radio-label{ padding-left:25px; background:url(../img/check/b2b-radio.png) 0 2px no-repeat; cursor:pointer; display:block; height:20px; line-height:20px;}
-.ui-radio:checked + .ui-b2b-radio-label{ background:url(../img/check/b2b-radio-checked.png) 0 2px no-repeat;}
+.ui-b2b-radio-label{ padding-left:25px; background:url(../img/b2b-radio.png) 0 2px no-repeat; cursor:pointer; display:block; height:20px; line-height:20px;}
+.ui-radio:checked + .ui-b2b-radio-label{ background:url(../img/b2b-radio-checked.png) 0 2px no-repeat;}
 
-.ui-b2b-checkbox-label{ padding-left:25px; background:url(../img/check/b2b-checkbox.png) 0 2px no-repeat; cursor:pointer;}
-.ui-checkbox:checked + .ui-b2b-checkbox-label{ background:url(../img/check/b2b-checked.png) 0 2px no-repeat;}
+.ui-b2b-checkbox-label{ padding-left:25px; background:url(../img/b2b-checkbox.png) 0 2px no-repeat; cursor:pointer;}
+.ui-checkbox:checked + .ui-b2b-checkbox-label{ background:url(../img/b2b-checked.png) 0 2px no-repeat;}
 /* checkbox and radio */
 
 /****************************** button end ************************/
