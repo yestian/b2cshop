@@ -10,5 +10,6 @@
 // +----------------------------------------------------------------------
 use think\Route;
 Route::rule('article/:id','article/index','get',['ext'=>'html'],['id'=>'\d{1,4}']);
+Route::rule('goods/:id','goods/index','get',['ext'=>'html'],['id'=>'\d{1,4}']);
 Route::rule('cate/:id','cate/index','get',['id'=>'\d{1,4}']);
 Route::rule('category/:id','category/index','get',['id'=>'\d{1,4}']);

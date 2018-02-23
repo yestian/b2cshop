@@ -10,4 +10,10 @@ class Article extends Model{
         }
         return $res;
     }
+
+    //获取文章
+    public function getArts($cateid,$limit=''){
+        $res=$this->where('cate_id',$cateid)->order('id desc')->limit($limit)->select();
+        return $res;
+    }
 }

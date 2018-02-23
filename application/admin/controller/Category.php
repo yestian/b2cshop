@@ -156,7 +156,11 @@ class Category extends Controller{
 				$article->delete($v1['id']);//删除文章
 			}
 		}
-
+		//同时删除推荐栏目信息
+			$recItem=db('recItem');
+		foreach($sonids as $k=>$v){
+			$recItem->where(['value_id'=>$id,'value_type'=>2])->delete();
+		}
 		$del=$cate->delete($sonids);//批量删除栏目
 		if($del){
 			$this->success('删除成功！','lst');

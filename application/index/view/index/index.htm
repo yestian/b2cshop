@@ -8,21 +8,21 @@
     <title>{$config.sitename}</title>
     {include file='common/meta'}
     <style>
-        .lift-channel {
+        .homefloor .lift-channel {
             display: flex;
             display: -webkit-flex;
             flex-wrap: wrap;
             box-sizing: border-box;
         }
 
-        .lift-channel li {
+        .homefloor .lift-channel li {
             width: calc(100%/3 - 10px);
             box-sizing: inherit;
             margin-right: 0;
             margin-left: 10px;
         }
 
-        .lift-channel li .p-img {
+        .homefloor .lift-channel li .p-img {
             height: 193px;
         }
     </style>
@@ -84,26 +84,18 @@
                                         </div>
                                         <div class="con">
                                             <ul>
+                                                {volist name='ans' id='vo'}
                                                 <li>
-                                                    <a href="article.php?id=63" target="_blank">服务店突破2000多家</a>
+                                                    <a href="{:url('article/index',['id'=>$vo['id']])}" target="_blank">{$vo.title}</a>
                                                 </li>
-                                                <li>
-                                                    <a href="article.php?id=62" target="_blank">我们成为中国最大家电零售B2B2C系统</a>
-                                                </li>
-                                                <li>
-                                                    <a href="article.php?id=61" target="_blank">三大国际腕表品牌签约</a>
-                                                </li>
+                                                {/volist}
                                             </ul>
                                             <ul style="display:none;">
-                                                <li>
-                                                    <a href="article.php?id=60" target="_blank">春季家装季，家电买一送一</a>
-                                                </li>
-                                                <li>
-                                                    <a href="article.php?id=59" target="_blank">抢百元优惠券，享4.22%活期</a>
-                                                </li>
-                                                <li>
-                                                    <a href="article.php?id=58" target="_blank">Macbook最高返50000消费豆！</a>
-                                                </li>
+                                                    {volist name='promote' id='vo'}
+                                                    <li>
+                                                        <a href="{:url('article/index',['id'=>$vo['id']])}" target="_blank">{$vo.title}</a>
+                                                    </li>
+                                                    {/volist}
                                             </ul>
                                         </div>
                                     </div>
@@ -216,7 +208,7 @@
                 </div>
             </div>
             <?php foreach($cateRec as $k=>$v):?>
-            <div class="visual-item w1200" data-mode="homeFloor" data-purebox="homeFloor" data-li="1" ectype="visualItme" data-diff="0"
+            <div class="visual-item w1200 homefloor" data-mode="homeFloor" data-purebox="homeFloor" data-li="1" ectype="visualItme" data-diff="0"
                 style="display: block;">
                 <div class="view">
                     <div class="floor-content" data-type="range" id="homeFloor_0" data-lift="女装">
@@ -248,40 +240,25 @@
                             </div>
                             <div class="floor-bd bd-mode-01">
                                 <div class="bd-left">
+                                        <?php foreach($v['leftImgs'] as $k1=>$v1):?>
+                                        <?php if($k1==1):?>
                                     <div class="floor-left-slide">
-                                        <div class="bd">
-                                            <ul>
-                                                <li>
-                                                    <a href="">
-                                                        <img src="__index__/img/1494985255003388359.jpg">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="">
-                                                        <img src="__index__/img/1494985255671031591.jpg">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="">
-                                                        <img src="__index__/img/1494985255859372374.jpg">
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="hd">
-                                            <ul></ul>
-                                        </div>
+                                        <div class="bd"><ul><?php foreach($v1 as $k3=>$v3):?>
+                                                <li><a href="<?php echo $v3['img_url']?>"><img src="__uploads__/<?php echo $v3['img_src']?>">
+                                                    </a></li><?php endforeach;?></ul>
+                                        </div><div class="hd"><ul></ul></div>
                                     </div>
-
+                                    <?php else:?>
                                     <div class="floor-left-adv">
-                                        <a href="" target="_blank">
-                                            <img src="__index__/img/1494984993812175408.jpg">
-                                        </a>
-                                        <a href="" target="_blank">
-                                            <img src="__index__/img/1494984993892207941.jpg">
-                                        </a>
+                                        <?php if($k1==2 && isset($v1[0]['img_src'])):?>
+                                        <a href="<?php echo $v1[0]['img_url']?>"><img src="__uploads__/<?php echo $v1[0]['img_src']?>" alt=""></a>
+                                        <?php endif;?>
+                                        <?php if($k1==3 && isset($v1[0]['img_src'])):?>
+                                        <a href="<?php echo $v1[0]['img_url']?>"><img src="__uploads__/<?php echo $v1[0]['img_src']?>" alt=""></a>
+                                        <?php endif;?>
                                     </div>
-
+                                    <?php endif;?>
+                                    <?php endforeach;?>
                                 </div>
                                 <div class="bd-right">
                                     <div class="floor-tabs-content clearfix">
@@ -289,7 +266,7 @@
                                             <ul class="lift-channel" style="margin-top:0;">
                                                 <?php foreach($v['newRecGoods'] as $k2=>$v2):?>
                                                 <li class="opacity_img">
-                                                    <a href="goods.php?id=621" target="_blank">
+                                                    <a href="{:url('goods/index',array('id'=>$v2['id']))}" target="_blank">
                                                         <div class="p-img">
                                                             <img src="__uploads__/<?php echo $v2['md_thumb'];?>">
                                                         </div>
@@ -304,10 +281,43 @@
                                                 <?php endforeach;?>
                                             </ul>
                                         </div>
-                                        <div class="floor-tabs-item">222</div>
-                                        <div class="floor-tabs-item">3333</div>
+                                        <!--子栏目商品信息-->
+                                        <?php foreach($v['children'] as $k1=>$v1):?>
+                                        <div class="floor-tabs-item">
+                                            <ul class="lift-channel" style="margin-top:0;">
+                                                <?php foreach($v1['bestgoods'] as $k2=>$v2):?>
+                                                <li class="opacity_img">
+                                                    <a href="{:url('goods/index',array('id'=>$v2['id']))}" target="_blank">
+                                                        <div class="p-img">
+                                                            <img src="__uploads__/<?php echo $v2['md_thumb'];?>">
+                                                        </div>
+                                                        <div class="p-name" title="<?php echo $v2['goods_name'];?>"><?php echo $v2['goods_name'];?></div>
+                                                        <div class="p-price">
+                                                            <div class="shop-price">
+                                                                <em>¥</em><?php echo $v2['shop_price'];?></div>
+                                                            <div class="original-price"></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <?php endforeach;?>
+                                            </ul>
+                                        </div>
+                                        <?php endforeach;?>
                                     </div>
 
+                                </div>
+                            </div>
+                            <div class="floor-fd">
+                                <div class="floor-fd-brand clearfix">
+                                    <?php foreach($v['brands']['brand'] as $k3=>$v3):?>
+                                    <div class="item">
+                                        <a href="#" target="_blank">
+                                            <div class="link-l"></div>
+                                            <div class="img"><img src="__uploads__/<?php echo $v3['brand_img'];?>" title="ELLE HOME"></div>
+                                            <div class="link"></div>
+                                        </a>
+                                    </div>
+                                    <?php endforeach;?>
                                 </div>
                             </div>
                         </div>
@@ -316,6 +326,25 @@
                 </div>
             </div>
             <?php endforeach;?>
+            <div class="visual-item w1200" data-mode="guessYouLike" data-purebox="goods" ectype="visualItme" data-diff="0" style="display: block;">
+                                    
+                    <div class="view">
+                        <div class="lift-channel clearfix" id="guessYouLike" data-type="range" data-lift="商品">
+                            <div data-goodstitle="title"><div class="ftit"><h3>还没逛够</h3></div></div>
+                            <ul>
+{volist name='recgoods' id='vo'}
+                    <li class="opacity_img"><a href="{:url('goods/index',['id'=>$vo['id']])}" target="_blank">
+                    <div class="p-img"><img src="__uploads__/{$vo.md_thumb}"></div>
+                    <div class="p-name" title="{$vo.goods_name}">{$vo.goods_name}</div>
+                    <div class="p-price">
+                    <div class="shop-price"><em>¥</em>{$vo.shop_price}</div>
+                    <div class="original-price"></div>
+                    </div></a></li>
+                    {/volist}
+                </ul>
+                        <div class="spec" data-spec=""></div></div>
+                    </div>
+                </div>
         </div>
         <div class="lift lift-mode-one lift-hide" ectype="lift" data-type="one" style="z-index:100001">
             <div class="lift-list" ectype="liftList">

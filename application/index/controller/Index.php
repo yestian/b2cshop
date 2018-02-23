@@ -4,31 +4,36 @@ use catetree\Catetree;
 class Index extends Base
 {
     public function index(){
-        $hotGoods=model('Goods')->getRecGoods(2,5);//热卖商品
-        //首页推荐栏目
+        //调用公告及促销文章
+        $ans=model('article')->getArts(33,3);
+        //促销
+        $promote=model('article')->getArts(35,3);
+        //获取指定推荐位的商品
+        $recgoods=model('goods')->getRecGoods(10,10);
+        //首页推荐栏目，才展示在首页的各个大的分类下面
         $caterec=model('category')->getRecCates(5,0);//推荐位ID，栏目pid
+        //循环出每一个大分类
         foreach ($caterec as $k => $v) {
-            $caterec[$k]['children']=model('category')->getRecCates(5,$v['id']);
-            //获取首页指定顶级栏目下的新品推荐
-            //1.获取顶级栏目下的所有子栏目ID
-            $cateTree=new Catetree();
-            $sonids=$cateTree->childrenids($v['id'],db('category'));//顶级栏目ID，数据库对象
-            $sonids[]=$v['id'];//把顶级栏目id放入
-            //获取推荐位里的商品
-            $_rec_new_goods=db('recItem')->where(['value_type'=>1,'rec_id'=>8])->select();
-            $rec_new_goods=array();
-            foreach ($_rec_new_goods as $k1 => $v1) {
-                $rec_new_goods[]=$v1['value_id'];
+            //根据大分类ID，以及设为了首页推荐的栏目
+            $caterec[$k]['children']=model('Category')->getRecCates(5,$v['id']);
+            //对推荐的栏目循环，得到推荐的栏目下面的推荐商品（推荐商品指定的推荐ID为9）
+            foreach ($caterec[$k]['children'] as $k1 => $v1) {
+                $caterec[$k]['children'][$k1]['bestgoods']=model('Goods')->getRecIndexGoods(9,$v1['id']);
             }
-            $map['category_id']=array('IN',$sonids);
-            $map['id']=array('IN',$rec_new_goods);
-            $caterec[$k]['newRecGoods']=db('goods')->where($map)->limit(6)->order('id DESC')->select();
+            //获取首页大模块下的新品推荐
+            $caterec[$k]['newRecGoods']=model('Goods')->getRecIndexGoods(8,$v['id']);
+            //获取每个顶级分类下面的品牌列表，放在商品列表的最下面
+            $caterec[$k]['brands']=model('Category')->getCategoryBrands($v['id']);
+            //获取关联广告图片
+            $caterec[$k]['leftImgs']=model('CategoryAd')->getCategoryAds($v['id']);
         }
-
+        // dump($caterec);die;
         $this->assign([
             'homepage'=>1,//控制首页的下拉菜单是否显示
-            'hotGoods'=>$hotGoods,//推荐商品
             'cateRec'=>$caterec,//推荐栏目
+            'recgoods'=>$recgoods,//首页底部推荐商品
+            'ans'=>$ans,//公告
+            'promote'=>$promote,//促销
         ]);
         return view();
     } 

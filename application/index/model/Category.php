@@ -43,8 +43,13 @@ class Category extends Model{
         return $data;
     }
 
-    //获取推荐位下的分类
+
+    //获取推荐位下的分类的栏目信息
+    /**
+     * 根据推荐栏目的ID，以及上级栏目ID
+     */
     public function getRecCates($rec_id,$pid=0){
+        //推荐位中的商品
         $_res=db('RecItem')->where(['rec_id'=>$rec_id,'value_type'=>2])->select();
         $res=array();
         foreach ($_res as $k => $v) {
