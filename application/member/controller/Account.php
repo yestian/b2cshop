@@ -1,5 +1,6 @@
 <?php
 namespace app\member\controller;
+use Aliyun\DySDKLite\SignatureHelper;
 use phpmailer\phpmailer\PHPMailer;
 
 class Account extends Base{
@@ -15,11 +16,13 @@ class Account extends Base{
                 if(!($data['email']==session('email') && $data['send_code']==session('emailcode'))){
                     $this->error('邮箱地址和验证码不对应！');
                 }
-                $data['email_checked']=1;
-                //手机注册类型
-            }else if($data['register_type']==1){
+                $data['email_checked']=1; 
+            }
+
+             //手机注册类型
+            if($data['register_type']==1){
                  //判断手机号码和验证码是否一致
-                if(!($data['mobile_phone']==session('mobile_phone') && $data['send_code']==session('phonecode'))){
+                if(!($data['mobile_phone']==session('mobile_phone') && $data['send_code']==session('mobile_code'))){
                     $this->error('手机号码和验证码不对应！');
                 }
                 $data['phone_checked']=1;
@@ -31,8 +34,8 @@ class Account extends Base{
                 //清除注册时候的session
                 session('email',null);
                 session('emailcode',null);
-                session('phonecode',null);
-                session('phone',null);
+                session('mobile_code',null);
+                session('mobile_phone',null);
                 $this->success('注册成功！','login');
             }else{
                 $this->error('注册失败！');
@@ -148,17 +151,67 @@ class Account extends Base{
     //发送手机验证码
     public function sendSms(){
         if(request()->isAjax()){
+            $config=model('conf')->getConf();//获取配置信息
             $data=input('mobile_phone');
+            
+            $params = array ();
+            // *** 需用户填写部分 ***
+            //定义下面使用的参数变量
+            $phonecode=rand(100000,999999);//短信码
+            $signName=$config['sign_name'];//签名，在阿里平台定义，不能在这里修改字符
+            $TemplateCode=$config['TemplateCode'];//短信模板编号
+            //存进session
+            session('mobile_phone',$data);
+            session('mobile_code',$phonecode);
+            //秘钥
+            $accessKeyId=$config['accessKeyId'];
+            $accessKeySecret=$config['accessKeySecret'];
 
-            session('mobile_phone',$data);//存进session
+            // fixme 必填: 短信接收号码
+            $params["PhoneNumbers"] = $data;
+            // fixme 必填: 短信签名
+            $params["SignName"] = $signName;
+            // fixme 必填: 短信模板Code
+            $params["TemplateCode"] = $TemplateCode;
+            // fixme 可选: 设置模板参数
+            $params['TemplateParam'] = Array (
+                "code" => $phonecode,
+                "product" => "阿里通信"
+            );
+            // *** 需用户填写部分结束, 以下代码若无必要无需更改 ***
+            if(!empty($params["TemplateParam"]) && is_array($params["TemplateParam"])) {
+                $params["TemplateParam"] = json_encode($params["TemplateParam"], JSON_UNESCAPED_UNICODE);
+            }
+            // 初始化SignatureHelper实例用于设置参数，签名以及发送请求
+            $helper = new SignatureHelper();
+            // 此处可能会抛出异常，注意catch
+            $content = $helper->request(
+                $accessKeyId,
+                $accessKeySecret,
+                "dysmsapi.aliyuncs.com",
+                array_merge($params, array(
+                    "RegionId" => "cn-hangzhou",
+                    "Action" => "SendSms",
+                    "Version" => "2017-05-25",
+                ))
+            );
 
-            // echo 'true';
+            return $content;
+            // 验证发送短信(SendSms)接口
+            // print_r(sendSms());
         }
     }
 
     //验证手机验证码
     public function check_sendSms(){
-        echo 'false';
+        if(request()->isAjax()){
+            $data=input('mobile_code');
+            if($data==session('phonecode')){
+                echo 'true';
+            }else{
+                echo 'false';
+            }
+        }
     }
 
 

@@ -140,9 +140,15 @@ class Conf extends Controller{
 		}
 		$siteConf=$db->where('conf_type',1)->select();
 		$goodsConf=$db->where('conf_type',2)->select();
+		$memberConf=$db->where('conf_type',3)->select();
+		$smsConf=$db->where('conf_type',4)->select();
+		$emailConf=$db->where('conf_type',5)->select();
 		$this->assign([
 			'site'=>$siteConf,
-			'goods'=>$goodsConf
+			'goods'=>$goodsConf,
+			'member'=>$memberConf,
+			'sms'=>$smsConf,
+			'email'=>$emailConf,
 		]);
 		return view();
 	}

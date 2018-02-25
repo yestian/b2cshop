@@ -48,6 +48,12 @@
                                             <li>
                                                 <a href="#tab3" data-toggle="tab">会员配置</a>
                                             </li>
+                                            <li>
+                                                <a href="#tab4" data-toggle="tab">短信配置</a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab5" data-toggle="tab">邮件配置</a>
+                                            </li>
                                         </ul>
                                         <div class="tab-content tab-flat">
                                             <div id="tab1" class="tab-pane active">
@@ -197,6 +203,228 @@
                                                            
                                                         </div>
                                             </div>
+                                            <div id="tab3" class="tab-pane">
+                                                <div class="form-horizontal">
+                                                            <?php foreach ($member as $k=>$conf):?>
+                                                            <div class="form-group">
+                                                                <label for="enname" class="col-sm-2 control-label no-padding-right">
+                                                                    <?php echo $conf['cnname']?>
+                                                                </label>
+                                                                <div class="col-sm-6">
+                                                                    <!--文本框-->
+                                                                    <?php if($conf['form_type']=='input'):?>
+                                                                    <input class="form-control" name="<?php echo $conf['enname']?>" type="text" value="<?php echo $conf['value'];?>">
+                                                                    <!--文本域-->
+                                                                    <?php elseif($conf['form_type']=='textarea'):?>
+                                                                    <textarea name="<?php echo $conf['enname']?>" class="form-control"><?php echo $conf['value'];?></textarea>
+                                                                    <!--单选框-->
+                                                                    <?php elseif($conf['form_type']=='radio'):?>
+                                                                    <div class="radio">
+                                                                        <!--循环出单选内容-->
+                                                                        <?php if($conf['values']):
+                                                                            $arr=explode(',',$conf['values']);
+                                                                            foreach($arr as $k1=>$v1):
+                                                                        ?>
+                                                                        <label>
+                                                                            <input <?php if($conf['value']==$v1){echo 'checked';}?> type="radio" name="<?php echo $conf['enname'];?>" class="colored-blue" value="<?php echo $v1;?>">
+                                                                            <span class="text"><?php echo $v1;?></span>
+                                                                        </label>
+                                                                        <?php endforeach; endif;?>
+                                                                    </div>
+                                                                    <!--select类型-->
+                                                                    <?php elseif($conf['form_type']=='select'):?>
+                                                                    <select name="<?php echo $conf['enname']?>" id="">
+                                                                        <option value="">请选择</option>
+                                                                        <?php if($conf['values']):
+                                                                            $arr=explode(',',$conf['values']);
+                                                                            foreach($arr as $k1=>$v1):
+                                                                        ?>
+                                                                        <option <?php if($conf['value']==$v1){echo 'selected';}?> value="<?php echo $v1;?>"><?php echo $v1;?></option>
+                                                                        <?php endforeach; endif;?>
+                                                                    </select>
+                                                                    <!--文件-->
+                                                                    <?php elseif($conf['form_type']=='file'):?>
+                                                                    <input type="file" name="<?php echo $conf['enname']?>">
+                                                                    <?php if($conf['value']):?>
+                                                                    <img width="50" height="50" src="/static/uploads/<?php echo $conf['value']?>" alt="图片">
+                                                                            <?php else:?>暂无图片<?php endif;?>
+                                                                    <!--单选框-->
+                                                                    <?php elseif($conf['form_type']=='checkbox'):?>
+                                                                    <div class="checkbox">
+                                                                        <!--循环出单选内容-->
+                                                                        <?php if($conf['values']):
+                                                                            $arr_values=explode(',',$conf['values']);//可选值
+                                                                            $arr_value=explode(',',$conf['value']);//已选值
+                                                                            foreach($arr_values as $k1=>$v1):
+                                                                        ?>
+                                                                        <label>
+                                                                            <input <?php if(in_array($v1,$arr_value)){echo 'checked';}?> type="checkbox" name="<?php echo $conf['enname'];?>[]" class="colored-blue" value="<?php echo $v1;?>">
+                                                                            <span class="text"><?php echo $v1;?></span>
+                                                                        </label>
+                                                                        <?php endforeach; endif;?>
+                                                                    </div>
+                                                                    <?php endif;?>
+                                                                </div>
+                                                            </div>
+    
+    
+                                                            <?php endforeach;?>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-offset-2 col-sm-10">
+                                                                    <button type="submit" class="btn btn-default">保存信息</button>
+                                                                </div>
+                                                            </div>
+                                                       
+                                                    </div>
+                                        </div>
+                                        <div id="tab4" class="tab-pane">
+                                            <div class="form-horizontal">
+                                                        <?php foreach ($sms as $k=>$conf):?>
+                                                        <div class="form-group">
+                                                            <label for="enname" class="col-sm-2 control-label no-padding-right">
+                                                                <?php echo $conf['cnname']?>
+                                                            </label>
+                                                            <div class="col-sm-6">
+                                                                <!--文本框-->
+                                                                <?php if($conf['form_type']=='input'):?>
+                                                                <input class="form-control" name="<?php echo $conf['enname']?>" type="text" value="<?php echo $conf['value'];?>">
+                                                                <!--文本域-->
+                                                                <?php elseif($conf['form_type']=='textarea'):?>
+                                                                <textarea name="<?php echo $conf['enname']?>" class="form-control"><?php echo $conf['value'];?></textarea>
+                                                                <!--单选框-->
+                                                                <?php elseif($conf['form_type']=='radio'):?>
+                                                                <div class="radio">
+                                                                    <!--循环出单选内容-->
+                                                                    <?php if($conf['values']):
+                                                                        $arr=explode(',',$conf['values']);
+                                                                        foreach($arr as $k1=>$v1):
+                                                                    ?>
+                                                                    <label>
+                                                                        <input <?php if($conf['value']==$v1){echo 'checked';}?> type="radio" name="<?php echo $conf['enname'];?>" class="colored-blue" value="<?php echo $v1;?>">
+                                                                        <span class="text"><?php echo $v1;?></span>
+                                                                    </label>
+                                                                    <?php endforeach; endif;?>
+                                                                </div>
+                                                                <!--select类型-->
+                                                                <?php elseif($conf['form_type']=='select'):?>
+                                                                <select name="<?php echo $conf['enname']?>" id="">
+                                                                    <option value="">请选择</option>
+                                                                    <?php if($conf['values']):
+                                                                        $arr=explode(',',$conf['values']);
+                                                                        foreach($arr as $k1=>$v1):
+                                                                    ?>
+                                                                    <option <?php if($conf['value']==$v1){echo 'selected';}?> value="<?php echo $v1;?>"><?php echo $v1;?></option>
+                                                                    <?php endforeach; endif;?>
+                                                                </select>
+                                                                <!--文件-->
+                                                                <?php elseif($conf['form_type']=='file'):?>
+                                                                <input type="file" name="<?php echo $conf['enname']?>">
+                                                                <?php if($conf['value']):?>
+                                                                <img width="50" height="50" src="/static/uploads/<?php echo $conf['value']?>" alt="图片">
+                                                                        <?php else:?>暂无图片<?php endif;?>
+                                                                <!--单选框-->
+                                                                <?php elseif($conf['form_type']=='checkbox'):?>
+                                                                <div class="checkbox">
+                                                                    <!--循环出单选内容-->
+                                                                    <?php if($conf['values']):
+                                                                        $arr_values=explode(',',$conf['values']);//可选值
+                                                                        $arr_value=explode(',',$conf['value']);//已选值
+                                                                        foreach($arr_values as $k1=>$v1):
+                                                                    ?>
+                                                                    <label>
+                                                                        <input <?php if(in_array($v1,$arr_value)){echo 'checked';}?> type="checkbox" name="<?php echo $conf['enname'];?>[]" class="colored-blue" value="<?php echo $v1;?>">
+                                                                        <span class="text"><?php echo $v1;?></span>
+                                                                    </label>
+                                                                    <?php endforeach; endif;?>
+                                                                </div>
+                                                                <?php endif;?>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <?php endforeach;?>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-offset-2 col-sm-10">
+                                                                <button type="submit" class="btn btn-default">保存信息</button>
+                                                            </div>
+                                                        </div>
+                                                   
+                                                </div>
+                                    </div>
+                                    <div id="tab5" class="tab-pane">
+                                        <div class="form-horizontal">
+                                                    <?php foreach ($email as $k=>$conf):?>
+                                                    <div class="form-group">
+                                                        <label for="enname" class="col-sm-2 control-label no-padding-right">
+                                                            <?php echo $conf['cnname']?>
+                                                        </label>
+                                                        <div class="col-sm-6">
+                                                            <!--文本框-->
+                                                            <?php if($conf['form_type']=='input'):?>
+                                                            <input class="form-control" name="<?php echo $conf['enname']?>" type="text" value="<?php echo $conf['value'];?>">
+                                                            <!--文本域-->
+                                                            <?php elseif($conf['form_type']=='textarea'):?>
+                                                            <textarea name="<?php echo $conf['enname']?>" class="form-control"><?php echo $conf['value'];?></textarea>
+                                                            <!--单选框-->
+                                                            <?php elseif($conf['form_type']=='radio'):?>
+                                                            <div class="radio">
+                                                                <!--循环出单选内容-->
+                                                                <?php if($conf['values']):
+                                                                    $arr=explode(',',$conf['values']);
+                                                                    foreach($arr as $k1=>$v1):
+                                                                ?>
+                                                                <label>
+                                                                    <input <?php if($conf['value']==$v1){echo 'checked';}?> type="radio" name="<?php echo $conf['enname'];?>" class="colored-blue" value="<?php echo $v1;?>">
+                                                                    <span class="text"><?php echo $v1;?></span>
+                                                                </label>
+                                                                <?php endforeach; endif;?>
+                                                            </div>
+                                                            <!--select类型-->
+                                                            <?php elseif($conf['form_type']=='select'):?>
+                                                            <select name="<?php echo $conf['enname']?>" id="">
+                                                                <option value="">请选择</option>
+                                                                <?php if($conf['values']):
+                                                                    $arr=explode(',',$conf['values']);
+                                                                    foreach($arr as $k1=>$v1):
+                                                                ?>
+                                                                <option <?php if($conf['value']==$v1){echo 'selected';}?> value="<?php echo $v1;?>"><?php echo $v1;?></option>
+                                                                <?php endforeach; endif;?>
+                                                            </select>
+                                                            <!--文件-->
+                                                            <?php elseif($conf['form_type']=='file'):?>
+                                                            <input type="file" name="<?php echo $conf['enname']?>">
+                                                            <?php if($conf['value']):?>
+                                                            <img width="50" height="50" src="/static/uploads/<?php echo $conf['value']?>" alt="图片">
+                                                                    <?php else:?>暂无图片<?php endif;?>
+                                                            <!--单选框-->
+                                                            <?php elseif($conf['form_type']=='checkbox'):?>
+                                                            <div class="checkbox">
+                                                                <!--循环出单选内容-->
+                                                                <?php if($conf['values']):
+                                                                    $arr_values=explode(',',$conf['values']);//可选值
+                                                                    $arr_value=explode(',',$conf['value']);//已选值
+                                                                    foreach($arr_values as $k1=>$v1):
+                                                                ?>
+                                                                <label>
+                                                                    <input <?php if(in_array($v1,$arr_value)){echo 'checked';}?> type="checkbox" name="<?php echo $conf['enname'];?>[]" class="colored-blue" value="<?php echo $v1;?>">
+                                                                    <span class="text"><?php echo $v1;?></span>
+                                                                </label>
+                                                                <?php endforeach; endif;?>
+                                                            </div>
+                                                            <?php endif;?>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <?php endforeach;?>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                            <button type="submit" class="btn btn-default">保存信息</button>
+                                                        </div>
+                                                    </div>
+                                               
+                                            </div>
+                                </div>
                                         </div>
                                     </div>
                                 
