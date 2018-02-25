@@ -75,6 +75,28 @@
         var confirm_password_empty = "<i class='iconfont icon-minus-sign'></i>请输入您的确认密码";
         var both_password_error = "<i class='iconfont icon-minus-sign'></i>您两次输入的密码不一致";
     </script>
+    <style>
+    .sms-btn{
+        display: inline-block;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    </style>
 </head>
 
 <body class="bg-ligtGary">
@@ -87,13 +109,10 @@
                             <img src="__index__/img/user_login_logo.png" />
                         </a>
                     </div>
-                    <div class="logo-span">
-                        <b style="background:url(__index__/img/login_logo_pic.png) no-repeat;"></b>
-                    </div>
                 </div>
                 <div class="header-href">
                     <span>已注册可
-                        <a href="{:url('login')}" class="jump">在此登录</a>
+                        <a href="{:url('member/account/login')}" class="jump">在此登录</a>
                     </span>
                 </div>
             </div>
@@ -109,6 +128,7 @@
                     <div class="register-form">
                         <div class="form form-other">
                             <form action="" method="post" name="formUser">
+                                <input type="hidden" name="register_type" value="0" />
                                 <div class="item">
                                     <div class="item-label">
                                         用　户　名
@@ -148,6 +168,16 @@
                                     </div>
                                     <div class="input-tip"></div>
                                 </div>
+                                <div class="item" id="code_mobile">
+                                        <div class="item-label">
+                                            手机验证码
+                                        </div>
+                                        <div class="item-info">
+                                            <input type="text" name="mobile_code" id="mobile_code" class="text text-2" value="" autocomplete="off" />
+                                            <input type="button" class="sms-btn" id="zmobile" onclick="sendPhoneCode()" value="获取验证码">
+                                        </div>
+                                        <div class="input-tip"></div>
+                                    </div>
                                 <div class="item" id="email_yz" style="display:none;">
                                     <div class="item-label">
                                         邮 箱 验 证
@@ -164,20 +194,11 @@
                                     </div>
                                     <div class="item-info">
                                         <input type="text" name="send_code" id="send_code" class="text text-2 ignore" value="" autocomplete="off" />
-                                        <a href="javascript:sendChangeEmail(1);" id="zemail" class="sms-btn">获取验证码</a>
+                                        <input type="button" class="sms-btn" id="zemail" onclick="sendEmailCode()" value="获取验证码">
                                     </div>
                                     <div class="input-tip"></div>
                                 </div>
-                                <div class="item" id="code_mobile">
-                                        <div class="item-label">
-                                            手机验证码
-                                        </div>
-                                        <div class="item-info">
-                                            <input type="text" name="mobile_code" id="mobile_code" class="text text-2 ignore" value="" autocomplete="off" />
-                                            <a href="javascript:sendChangePhone(1);" id="zmobile" class="sms-btn">获取验证码</a>
-                                        </div>
-                                        <div class="input-tip"></div>
-                                    </div>
+                                
                                 <div class="item item2">
                                     <div class="item-checkbox">
                                         <input type="checkbox" id="clause2" class="ui-solid-checkbox" checked="checked" value="1" name="mobileagreement" />
@@ -209,13 +230,16 @@
                 </p>
             </div>
         </div>
-        <div class="hidden">
-            <input type="hidden" name="seller_kf_IM" value="" rev="" ru_id="" />
-            <input type="hidden" name="seller_kf_qq" value="349488953" />
-            <input type="hidden" name="seller_kf_tel" value="4000-000-000" />
-            <input type="hidden" name="user_id" value="0" />
-        </div>
     </div>
+    <script>
+        var check_username="{:url('account/checkusername')}";//用户名
+        var check_email="{:url('account/checkemail')}";//邮箱地址
+        var send_email_code="{:url('account/sendMail')}";//发送邮箱验证码
+        var check_email_code="{:url('account/check_sendEmailCode')}";//验证邮箱验证码
+        var check_phone="{:url('account/checkPhone')}";//验证手机号码
+        var send_phone_code="{:url('account/sendSms')}";//发送短息
+        var check_phone_code="{:url('account/check_sendSms')}";//验证短息
+    </script>
     <script type="text/javascript" src="__index__/js/scroll_city.js"></script>
     <script type="text/javascript" src="__index__/js/user.js"></script>
     <script type="text/javascript" src="__index__/js/user_register.js"></script>
@@ -228,11 +252,6 @@
     <script type="text/javascript" src="__index__/js/jquery.purebox.js"></script>
     <script type="text/javascript">
         $(function () {
-            if (document.getElementById("seccode")) {
-                $("#seccode").val(0);
-            }
-
-
             //邮箱验证和手机验证切换
             $("*[ectype='meSwitch']").on("click", function () {
                 var type = $(this).data("type");
@@ -254,10 +273,55 @@
                     $("input[name='email'],input[name='send_code']").addClass("ignore"); //手机验证 邮箱和邮箱验证码去除验证标识
                 }
             });
-
-            //注册问题下拉
-            $.divselect("#divselect", "#passwd_quesetion");
         });
+    </script>
+
+<script type="text/javascript">
+
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    
+    function sendEmailCode() {
+        //如果邮件地址为空，则返回
+        if($("input[name='email']").val()==''){
+            $("#code_email").find(".input-tip").html("<label class='error'>" + msg_email_blank + "</label>");
+            return false;
+        }else{
+            curCount = count;
+        　　//设置button效果，开始计时
+            $("#zemail").attr("disabled", "true");
+            $("#zemail").val("重新发送" + curCount);
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        　　  //向后台发送处理数据
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{email:$("input[name='email']").val()},
+                url:send_email_code,
+                success:function(data){
+                    if(data){
+                       
+                    }
+                }
+            });
+        }
+        
+      　
+    }
+    
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {                
+            window.clearInterval(InterValObj);//停止计时器
+            $("#zemail").removeAttr("disabled");//启用按钮
+            $("#zemail").val("重新发送");
+        }
+        else {
+            curCount--;
+            $("#zemail").val("重新发送" + curCount);
+        }
+    }
     </script>
 </body>
 

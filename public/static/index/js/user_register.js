@@ -32,7 +32,7 @@ $(function(){
 							return $("input[name='username']").val();
 						}
 					},
-					url:'/member/account/checkusername',
+					url:check_username,
 				}
 			},
 			password :{
@@ -51,7 +51,7 @@ $(function(){
 					cache: false,
 					async:false,
 					type:'POST',
-					url:'user.php?act=check_phone',
+					url:check_phone,
 					data:{
 						mobile_phone:function(){
 							return $("input[name='mobile_phone']").val();
@@ -85,7 +85,7 @@ $(function(){
 					cache: false,
 					async:false,
 					type:'POST',
-					url:'user.php?act=code_notice',
+					url:check_phone_code,
 					data:{
 						mobile_code:function(){
 							return $("input[name='mobile_code']").val();
@@ -100,7 +100,7 @@ $(function(){
 					cache: false,
 					async:false,
 					type:'POST',
-					url:'user.php?act=check_email',
+					url:check_email,
 					data:{
 						email:function(){
 							return $("input[name='email']").val();
@@ -117,7 +117,7 @@ $(function(){
 					cache: false,
 					async:false,
 					type:'POST',
-					url:'user.php?act=checkd_email_send_code',
+					url:check_email_code,
 					data:{
 						send_code:function(){
 							return $("input[name='send_code']").val();
@@ -172,6 +172,10 @@ $(function(){
 			send_code :{
 				required : msg_email_code,
 				remote : msg_email_code_not
+			},
+			mobile_code :{
+				required : msg_phone_blank,
+				remote : msg_mobile_code_not_correct
 			},
 			sel_question :{
 				required : select_password_question
@@ -330,25 +334,25 @@ $(function(){
 	});
 });
 
-//获取邮箱验证码
-function sendChangeEmail(type){
-	var obj = $("input[name='email']"),
-		email = obj.val(),
-		where = "";
-		
-	if(!type){
-		type = 0;
-	}	
-	
-	if(email != ""){
-		where = "&email=" + email;
-	}else{
-		obj.parents("#code_email").find(".input-tip").html("<label class='error'>" + msg_email_blank + "</label>");
-	}
 
-	Ajax.call( 'user.php?act=user_email_send', 'type=' + type + where, function(result){
-		if(result.replace(/\r\n/g,'') == 'ok'){
-			pbDialog(json_languages.Mailbox_sent,"",1);
+
+ 
+/**
+ * 发送手机验证码
+ */
+function sendPhoneCode(){
+	var obj=$("input[name='mobile_phone']");
+	var phone = obj.val();
+	if(phone == ""){
+		$("#code_mobile").find(".input-tip").html("<label class='error'>" + msg_phone_blank + "</label>");
+		return false;
+	}
+	$.ajax({
+		type:'post',
+		dataType:'json',
+		data:{phonecode:phone},
+		url:send_phone_code,
+		success:function(data){
 		}
-	} , 'GET', 'TEXT', true, true );
+	});
 }
