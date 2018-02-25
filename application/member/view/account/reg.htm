@@ -299,17 +299,49 @@
                 dataType:'json',
                 data:{email:$("input[name='email']").val()},
                 url:send_email_code,
-                success:function(data){
-                    if(data){
-                       
-                    }
-                }
+                success:function(data){}
             });
         }
         
       　
     }
-    
+    var InterValObj_1; //timer变量，控制时间
+    var count_1 = 60; //间隔函数，1秒执行
+    var curCount_1;//当前剩余秒数
+    function sendPhoneCode() {
+        //如果邮件地址为空，则返回
+        if($("input[name='mobile_phone']").val()==''){
+            $("#code_mobile").find(".input-tip").html("<label class='error'>" + msg_phone_blank + "</label>");
+            return false;
+        }else{
+            curCount_1 = count_1;
+        　　//设置button效果，开始计时
+            $("#zmobile").attr("disabled", "true");
+            $("#zmobile").val("重新发送" + curCount_1);
+            InterValObj_1 = window.setInterval(SetRemainTime_1, 1000); //启动计时器，1秒执行一次
+        　　  //向后台发送处理数据
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{mobile_phone:$("input[name='mobile_phone']").val()},
+                url:send_phone_code,
+                success:function(data){}
+            });
+        }
+        
+      　
+    }
+    function SetRemainTime_1() {
+        if (curCount_1 == 0) {                
+            window.clearInterval(InterValObj);//停止计时器
+            $("#zmobile").removeAttr("disabled");//启用按钮
+            $("#zmobile").val("重新发送");
+        }
+        else {
+            curCount_1--;
+            $("#zmobile").val("重新发送" + curCount_1);
+        }
+    }
     //timer处理函数
     function SetRemainTime() {
         if (curCount == 0) {                

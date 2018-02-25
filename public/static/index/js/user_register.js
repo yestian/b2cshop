@@ -333,26 +333,3 @@ $(function(){
 		});
 	});
 });
-
-
-
- 
-/**
- * 发送手机验证码
- */
-function sendPhoneCode(){
-	var obj=$("input[name='mobile_phone']");
-	var phone = obj.val();
-	if(phone == ""){
-		$("#code_mobile").find(".input-tip").html("<label class='error'>" + msg_phone_blank + "</label>");
-		return false;
-	}
-	$.ajax({
-		type:'post',
-		dataType:'json',
-		data:{phonecode:phone},
-		url:send_phone_code,
-		success:function(data){
-		}
-	});
-}

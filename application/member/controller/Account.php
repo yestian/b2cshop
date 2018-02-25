@@ -11,12 +11,21 @@ class Account extends Base{
             $data['password']=md5($data['password']);
             //邮箱注册类型
             if($data['register_type']==0){
+                //判断邮箱地址和验证码是否一致
+                if(!($data['email']==session('email') && $data['send_code']==session('emailcode'))){
+                    $this->error('邮箱地址和验证码不对应！');
+                }
                 $data['email_checked']=1;
+                //手机注册类型
+            }else if($data['register_type']==1){
+                 //判断手机号码和验证码是否一致
+                if(!($data['mobile_phone']==session('mobile_phone') && $data['send_code']==session('phonecode'))){
+                    $this->error('手机号码和验证码不对应！');
+                }
+                $data['phone_checked']=1;
             }
-            //判断邮箱地址和验证码是否一致
-            if(!($data['email']==session('email') && $data['send_code']==session('emailcode'))){
-                $this->error('邮箱地址和验证码不对应！');
-            }
+            
+            
             $res=db('user')->strict(false)->insert($data);
             if($res){
                 //清除注册时候的session
@@ -56,7 +65,7 @@ class Account extends Base{
             $mobile_phone=input('mobile_phone');
             $res=db('user')->where('mobile_phone',$mobile_phone)->find();
             if($res){
-                echo 'false';//用户名已经存在
+                echo 'false';//手机号已经存在
             }else{
                 echo 'true';//可以注册
             }
@@ -134,10 +143,19 @@ class Account extends Base{
             }
         }
     }
+
+
     //发送手机验证码
     public function sendSms(){
+        if(request()->isAjax()){
+            $data=input('mobile_phone');
 
+            session('mobile_phone',$data);//存进session
+
+            // echo 'true';
+        }
     }
+
     //验证手机验证码
     public function check_sendSms(){
         echo 'false';
